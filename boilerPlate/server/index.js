@@ -21,7 +21,7 @@ app.use(cookieParser())
 const { auth } = require('./middleware/auth')
 
 //유저 모델을 가져온다
-const { User } = require('models/User')
+const { User } = require('./models/User')
 // export default 인 것은  {} 없이 가져올수 있습니다
 // 하지만 default 아닌 것들은 {} 해서 가지고 와야 됩니다.
 
@@ -43,7 +43,16 @@ mongoose.connect(config.mongoURI,{
 // res 는 값읕 반환해준다고 생각을 하면된다.
 // 따라서 "/"는 주소이고 res를 통해서 hello wrold!를 보여준다
 app.get('/', (req, res) => {
+  console.log(req)
   res.send('Hello World!')
+})
+
+//원래는 클라이언트에서 받은 req(요청)을 가지고
+//server에서 처리할것을 처리하고나서
+//res(응답)로 다시 클라이언트에 보낸다.
+app.get('/api/hello',(req,res)=>{
+  console.log(req)
+  res.send("안녕하세요~")
 })
 
 
