@@ -1,0 +1,206 @@
+ //동기 비동기 콜백함수 https://pro-self-studier.tistory.com/89
+ //https://www.zerocho.com/category/NodeJS/post/58285e4840a6d700184ebd87
+ 
+ 2강 node.js와 express.js
+
+ nodejs는 javascript를 브라우저가 아닌 server side에서도
+ javascript를 사용하는 언어       https://nodejs.org/ko/
+
+ expressjs는 nodejs의 프레임워크  https://expressjs.com/ko/starter/hello-world.html
+
+ npm 패키지를 만들기위 해서 터미널에서 npm init 친다 => package.json이 만들어짐
+ 지금은 node모듈이 없음
+
+ express를 다운받기 위해서 npm install express --save를 하면
+ package.json에 디펜던시에 express가 추가되며, node_moudules이 만들어진다.
+
+---------------------------------------------------------------------------------------
+const express = require('express')  //express modules를 가져온다
+const app = express() //express 함수를 이용해서 새로운 express app을 만들고
+const port = 5000     //포트번호
+
+//  https://uhou.tistory.com/102 req객체와 res객체
+// '/'는 보내는 주소
+// req 는 말그대로 요청을 하는것이고
+// res 는 값읕 반환해준다고 생각을 하면된다.
+// 따라서 "/"는 주소이고 res를 통해서 hello wrold!를 보여준다
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+
+//포트번호 5000번에서 만들어진 app를 실행한다.
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`)
+})
+
+실행을 하기 위해서는 node index.js를 커맨드창에서 쳐서 사용하든가
+package.json에 script에 "start": "node index.js"를 추가하여
+npm run start 라고 커맨드에 쳐서 사용이 가능하다.
+
+------------------------------------------------------------------
+ 3강 몽고 db연결
+
+ 몽고db 유저 생성 => 아이디랑 비밀번호를 기억해두어야 나중에 앱과 연결이 가능
+ex) 'mongodb+srv://JWTEX:TIGER@jwt-rkkz2.mongodb.net/<dbname>?retryWrites=true&w=majority'
+                  <아이디>:<비밀번호>
+
+https://mongoosejs.com/docs/index.html //몽구스 시작페이지
+https://mongoosejs.com/docs/deprecations.html //use 설정에대한 설명이 있음
+
+mongoose 알아보기 //https://mongoosejs.com/ 
+간단하게 몽고db를 편하게 쓸수 있게 해줌
+
+npm install mongoose --save 를 통해서 설치가능
+=> package.json에 mongoose 생기는거 확인
+
+----------------------------------------------------------------
+
+4장  MongoDB 모델과 스키마
+https://www.zerocho.com/category/MongoDB/post/59a1870210b942001853e250
+
+모델이란 무엇? 모델은 스키마를 감싸주는 역할
+A Mongoose model is a wrapper on the Mongoose schema.
+Mongoose model provides an interface to the 
+database for creating, querying, updating, deleting records, etc.
+
+스키마란 무엇? 
+A Mongoose schema defines the structure of the 
+document, default values, validators, etc.,
+
+------------------------------------------------------------------
+
+7장 BodyParser & PostMan & 회원 가입 기능
+Clinet - Server 통신하는 법
+
+//구글에 Request with Body  the JSON, buffer, string and URL encoded data 검색해보기
+
+Express를 통한 Client와 Server의 통신에는
+Requset 안에 Body가 있는데 JSON형식이나 urlencode형식으로 데이터가 넘오오는데
+Body 데이터를 분석(parse)해서 req.body로 출력해주는것
+분석해주기 위해서는 Body-parser라는 디펜던시가 필요하다
+npm install body-parser --save
+          
+// req 는 말그대로 요청을 하는것이고
+// res 는 값읕 반환해준다고 생각을 하면된다.
+
+----------------------------------------------------
+9장 비밀 설정 정보 관리하기 (정리부족)
+개발환경과 배포환경의 차이두기
+
+
+-----------------------------------------------------
+10장 Bcrypt로 비밀번호를 암호화 하기
+
+Bcrypt가 아닌 Bcryptjs로 진행하였음.
+aws배포시 bcrypt 에러가 있어서
+
+
+암호화를 하기위해서는 register 라우트에 있는 
+save메소드 이전에서 암호화를 해줘야한다. 
+=> 데이터 베이스에 암호화된 패스워드가 save됨
+bcrypt로 암호화를 해줘야한다. 
+
+
+----------------------------------------------
+
+13장 Auth 기능 만들기 (어려움 다시 들어야할듯?)
+Auth 기능이 필요한 이유
+1.페이지 이동 떄마다 로그인되어있는지 안되어 있는지, 관리자유저인지등을 체크
+2. 글을 쓰떄나 지울떄 같은데 권한이 있는지 확인
+
+이전에 토큰을 생성한 다음에 데이터베이스 user정보에 넣어었다.
+
+그리고 토큰을 클라이언트쪽에는 쿠키에다가도 넣어주었고
+서버에는 유저 데이터베이스에 넣어주었다.
+
+이 두가지 토큰이 맞는지 계속 체크를 한다.
+어떤 유저가 a페이지에서 b페이지로 갔을때 유저가 a페이지에서 b페이지로 갈 수 있는 사람인지 확인
+
+
+클라이언트에서 서버에 쿠키에 담겨져 있는 토큰을 전달한다.
+토큰이 인코드 되어있는데 이를 디코드 하면 user id가 나오는데
+인코드를 함 var token = jwt.sign(user._id.toHexString(), 'secretToken')
+
+user id를 가진 유저 데이터베이스에 같은 토큰이 있다면 인증이 맞다.
+
+--------------------------------------------------------------------
+1. Cookie에서 저장된 Token을 Server에서 가져와서 복호화를 한다
+
+2.복호화를 하면 User ID가 나오는데 그 User ID를 이용해서 
+데이터 베이스 User Collection에서 유저를 찾은 후 
+쿠키에서 받아온 token이 유저도 갖고있는지 확인한다.
+
+3. Authentication True !!! 그리고 그 해당 하는 유저의 정보들을 
+선별해서 (아이디, 이미지, 등등) 프론트 엔드로 보내준다.
+
+---------------------------------------------------------
+
+15장 리액트란?
+
+리액트는 컴포넌트로 이뤄져있어서 module과 비슷하게 재사용성이 뛰어나다.
+
+Virtual DOM은 Real DOM과 
+같은 properties들을 갖고 있으면 그냥 가볍게 Real DOM을 
+Copy한거라 보면 된다 !
+
+
+Real DOM
+1. 만약 10개의 리스트가 있다.
+2. 그중에 한가지의 리스트만 Update 됨
+3. 전체 리스트를 다시 Reload 해야됨 !
+4. Super Expensive한 작업!
+
+
+Virtual DOM
+1. 만약 10개의 리스트가 있다.
+2. 그중에 한가지의 리스트만 Update 됨
+3.그 바뀐 한 가지 아이템만 
+DOM에서 바꿔준다!
+4. HOW !!! ????
+
+1.JSX(우선 HTML으로 알아두기)
+을 렌더링 한다.
+그러면 Virtual DOM이 Update가 됨
+
+2. Virtual DOM이  
+이전 virtual DOM에서 찍어둔 Snapshot과
+ 비교를 해서 바뀐 부분을 찾는다
+
+3. Virtual DOM이  
+이전 virtual DOM에서 찍어둔 Snapshot과
+비교를 해서 바뀐 부분을 찾는다
+이 과정을 "diffing"이라고 부름
+
+4. 그 바뀐 부분만 Real DOM에서 바꿔준다 !
+
+
+--------------------------------------------------------
+
+16장 Create-react-app으로 리액트 시작하기
+
+Babel이란?
+최신 자바스크립트 문법을 지원하지 않는 브라우저들을 위해서 
+최신 자바스크립트 문법을 구형 브라우저에서도 돌수있게 변환 시켜줌.
+구형 문법을 ES5문법으로 변환시켜준다.
+
+Webpack이란?
+많은 모듈들을 합하여서 간단하게 사용할수 있게 해준다.
+
+clinet 폴더로 터미널을 이용해서 들어가서 
+
+npx create-react-app . 을 해주는데
+
+.의 의미는 clinet 디렉토리 안에다가 설치하게다.
+
+
+----------------------------------------------------
+17강 npm과 npx의 차이점(나~~~~~중에 한번 더 듣고 공부하기)
+npm이란 무엇인가? 빌드??
+
+
+
+
+---------------------------------------------------------
+18강 create-react-app 구조
+
