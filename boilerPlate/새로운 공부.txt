@@ -331,6 +331,65 @@ CSS FRAMEWORK 종류 FOR REACT JS
 
 4.Ant Design  -- 이걸 사용할 예정   https://ant.design
 clinet루트에서 npm install antd --save
+index에 스타일시트를 추가한다.
+import 'antd/dist/antd.css';
 
 5. Materialize
+
+
+-----------------------------------------------------------
+//26장 Redux 기초
+Redux is a predictable state container for JavaScript apps.
+(상태 관리 라이브러리)
+
+Props와 State 비교하기
+
+Props는 properties의 줄임말
+부모 컴포넌트가 있고 자식컴포넌트가 있을 떄 컴포넌트 간의 무언가를 주고 받을때는 
+Props를 써야하고, 
+Props의 소통하는 방식은 위에서 아래로 
+즉, 부모컴포넌트에서 자식컴포넌트 로만 전송이 가능하다.
+
+부모 컴포넌트에서 자식컴포넌트로 1이라는 값을 줬을때 
+자식컴포넌트 안에서는 props는 변할수 없다. props는 읽기전용이다.()
+props는 불변성일 지니고 있다. 1이 바뀔라면 다시 부모컴포넌트에서 값을 바꿔야한다.
+
+State
+State는 부모컴포넌트에서 자식컴포넌트로 주는게 아니고,
+컴포넌트 안에서 데이터를 교환하거나 전달을 할 떄 state를 사용해야한다.
+state를 언제든지 변할수 있다. state가 변하면 re-render가 된다.
+
+
+Redux는 State를 관리하는 것
+
+Redux 데이터 Flow(stric unidirectional data flow) 한방향으로 데이터가 흐른다.
+React Component -> Dispatch(action) -> Action -> REDUCER -> STORE -> Subscribe -> 다시 React Component로 간다.
+
+Action은 객체로 이루어져있는데 무엇이 일어났는지 설명하는 객체이다.
+//동영상 7분 10초
+
+Reducer는 이전 State와 Action object를 받은 후에 next state를 return 한다.
+
+Store는 state를 저장하고 관리한다. 
+store의 state를 변경하기 위해서는 반드시 Dispatch를 이용한 Redux 데이터 Flow를 통해서만
+변경이 가능하다.
+
+
+------------------------------------------------------------------
+
+//Redux UP!! 27강
+React에서 사용하기 위해서 Client(리액트) 터미널로 가서
+npm install redux react-redux redux-promise redux-thunk --save 를 설치한다.
+redux-promise 
+redux-thunk
+
+//2분 18초 다시 한번 들어보기
+Action은 객체형식이여야 한다. 그래야 STORE에서 받을수 있는데, 
+항상 객체형식을 받는게 아니라 promise형식이나 funcion을 받을때도 있다.
+redux-promise와 redux-thunk를 미들웨이로로 받아서 전달한다.
+redux-thunk는 funcion을 받을수 있게해주고,
+redux-promise를 promise를 받을수 있게해준다.
+
+
+
 
