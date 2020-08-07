@@ -5,6 +5,7 @@ const port = 5000     //포트번호
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
+
 const config = require('./config/key')
 
 //application/x-www-form-urlencode 처럼 온 타입으로 온 데이터를 분석한다
@@ -51,7 +52,7 @@ app.get('/', (req, res) => {
 //server에서 처리할것을 처리하고나서
 //res(응답)로 다시 클라이언트에 보낸다.
 app.get('/api/hello',(req,res)=>{
-  console.log(req)
+  // console.log(req.route)
   res.send("안녕하세요~")
 })
 
