@@ -187,12 +187,12 @@ app.get('/api/users/auth', auth ,(req,res)=>{
 //같지 않기 떄문에 인증이 되지 않는다.
 //토큰이용해서 로그인 유지를 하기 때문에
 //토큰만 사라지면 자동으로 로그아웃이 된다. => 토큰을 지운다.
-                          //auth가 있는 이유는 
+                          //auth가 있는 이유는 인증처리한 데이터를 받아오기 위해서
 app.get("/api/users/logout", auth, (req,res)=>{
   console.log("6번 req.user", req.user);
       //_id는 db에 있는 _id   //req.user._id는 auth 미들웨어에서 가져온다.
   User.findByIdAndUpdate({_id: req.user._id}, //검색대상
-    { token: ""},//수정대상 //아틀라스에서 확인하기
+    { token: ""},//수정대상 //db에서 확인하기
     (err,user)=>{
       if(err) return res.json({success: false, err})
       return res.status(200).send({
