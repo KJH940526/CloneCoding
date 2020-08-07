@@ -79,7 +79,7 @@ userSchema.pre('save', function( next ) {
 userSchema.methods.comparePassword = function(plainPassword, cb){
 
   //plainPassword는 입력하는 password이고
-  console.log('2번 client 입력 : ',plainPassword)
+  console.log('2번 client 입력 : ', plainPassword)
   //2번쨰로 실행됨
 
   //plainPassword 입력한 비밀번호를 암호화된 비밀번호와 비교해야하는데

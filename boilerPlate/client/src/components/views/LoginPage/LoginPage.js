@@ -3,7 +3,10 @@ import React, { useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 
-function LoginPage() {
+import { loginUser} from '../../../_actions/user_action'
+
+
+function LoginPage(props) {
   //redux를 사용하기 위한 dispatch
   const dispatch = useDispatch()
 
@@ -47,7 +50,16 @@ function LoginPage() {
       Password: Password,
     };
             //loginuser는 액션
-    dispatch(loginUser(body));
+    dispatch(loginUser(body))
+      .then(response =>{
+        console.log(response)
+        console.log(props)
+        if(response.payload.loginSuccess){
+          props.history.push('/')
+        } else {
+          alert('Error')
+        }
+      })
   };
 
 
