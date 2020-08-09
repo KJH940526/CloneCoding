@@ -86,7 +86,7 @@ app.post('/api/users/register',(req,res)=>{
     //status(200)은 성공했다는 뜻임
     return res.status(200).json({
       success: true
-    })
+    })//나중에 client에서 payload에 들어감
   })
 })
 
@@ -107,7 +107,7 @@ app.post('/api/users/login',(req,res)=>{
                                       //user정보가 들어있음
   User.findOne({ email: req.body.email}, (err, user)=> {
 
-    console.log('1번 clinet 입력: ',req.body.email) //클라이언트에서 요청하는
+    console.log('1번 clinet 입력: ',req.body) //클라이언트에서 요청하는
     //1번으로 실행됨
     console.log('1-1번 DB에 있는 user정보: ',user)
 

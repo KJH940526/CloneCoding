@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
-//29강
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../_actions/user_action";
 
-import { useDispatch } from 'react-redux'
-
-import { loginUser} from '../../../_actions/user_action'
 
 
 function LoginPage(props) {
   //redux를 사용하기 위한 dispatch
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [Email, setEmail] = useState("")
-  const [Password, setPassword] = useState("")
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
 
   const onEmailHandler = (event) => {
     // console.log(event)
@@ -24,6 +22,8 @@ function LoginPage(props) {
     // console.log(event.currentTarget)
     setPassword(event.currentTarget.value);
   }
+
+
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -38,25 +38,28 @@ function LoginPage(props) {
         Password: Password
     }
     이런식으로            //body는 위에서 만듬
+    이런식으로            //body는 위에서 만듬
     //email과 password를 받는데 email이 데이터베이스에 있다면
-    그에 맞는 데이터 처리가 이루어짐 
+    그에 맞는 데이터 처리가 이루어짐  //body는 전하는 데이터
     Axios.post('/api/user/login', body)
         .then(response => {
 
         }) 
     */
-    let body = {
-      email: Email,
-      Password: Password,
-    };
-            //loginuser는 액션
+   let body = {
+    email: Email,
+    password: Password,
+  }; 
+    
+            //loginuser는 액션 //user_action에 있는 loginUser에 body
     dispatch(loginUser(body))
       .then(response =>{
-        console.log(response)
-        console.log(props)
+        console.log('client 리스폰 ',response)
+        console.log('clinet props' , props)
         if(response.payload.loginSuccess){
-          props.history.push('/')
-        } else {
+          alert("로그인에 성공하였습니다.")
+          props.history.push('/') //리액트에서 페이지를 옮길때는 이런방식으로 간다.
+        } else {                    //props는 line 7에서 받은 props이다
           alert('Error')
         }
       })
@@ -89,3 +92,5 @@ function LoginPage(props) {
 }
 
 export default LoginPage
+
+

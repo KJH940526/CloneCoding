@@ -1,5 +1,6 @@
 import {
-  LOGIN_USER
+  LOGIN_USER,
+  REGISTER_USER
 } from '../_actions/types';
 
 
@@ -17,6 +18,16 @@ export default function(state = {}, action){
       //redux devtools의 state를 보면 loginsuccess
       break;    
       
+    case REGISTER_USER:
+      console.log('case가 REGISTER_USER =',REGISTER_USER)
+      console.log('server에서 옴 =', action.payload)
+      return { ...state, register: action.payload }
+                        //server에서 온 respons를 action.paylod에 저장
+      break;   
+
+
+
+
       default:
         return state
   }
