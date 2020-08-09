@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/user_action";
 
 
+
 function RegisterPage(props) {
 
   //redux를 사용하기 위한 dispatch
@@ -33,30 +34,35 @@ function RegisterPage(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
+
+
     if(Password !== ConfirmPassword){
       return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
     }
       
-   let body = {
-    email: Email,
-    name : Name,
-    password: Password,
-  };      //ConfirmPassword는 데이터베이스로 보내지 않기 때문에 body x
+    let body = {
+      email: Email,
+      name : Name,
+      password: Password,
+    };  
+    //ConfirmPassword는 데이터베이스로 보내지 않기 때문에 body x
 
             //위에서 import한  registerUser라는 함수를 body에 가지고
             //registerUser라는 함수액션 //user_action에 있는 loginUser에 body
   dispatch(registerUser(body))
   .then(response =>{
-    console.log(response)
-    console.log(props)
+    console.log('client 리스폰 ',response)
+    console.log('clinet props' , props)
     if(response.payload.success){
-          alert("회원가입에 성공하였습니다.")
+      alert("회원가입에 성공하였습니다.")
       props.history.push('/login')
     } else {
       alert('회원가입에 실패하였습니다.')
     }
   })
 };
+  
+
 
 
 
