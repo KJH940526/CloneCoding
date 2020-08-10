@@ -464,3 +464,15 @@ HOC는 함수이다. 함수지만 다른 컴포넌트를 받은 다음에 새로
 
 Auth(HOC)는 Backend 서버에 요청(request)을 보내고 상태정보를 가지고 Auth(HOC)로 가지고 온다.
 상태정보는 로그인유저인지, 관리자인지 같은 것을 의미한다.
+
+
+
+
+
+
+
+EC2 배포 및 NGINX
+https://www.youtube.com/watch?v=HtWgb_vbyvY
+
+해로쿠 배포
+https://www.youtube.com/watch?v=qdoiwouykAg
