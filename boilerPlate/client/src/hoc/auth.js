@@ -26,7 +26,6 @@ export default function(SpecificComponent, option, adminRoute = null){
               //server에 가져온 데이더가 모두 response에 들어있다
     dispatch(auth()).then((response) => {
         console.log('Auth ',response)
-        console.log('response.payload',response.payload)
         console.log('Auth option',option)
         console.log('Auth adminRoute',adminRoute)
 
@@ -42,7 +41,9 @@ export default function(SpecificComponent, option, adminRoute = null){
               props.history.push('/login')
             }
         } else {
- //34강
+
+
+
  //로그인 한 상태 관리자가 아닌데 관리자 페이지를 들어갈라고 할떄
  //관리자는 따로 설정 안해줘도 되는 이유는 isAdmin이 true이기 떄문에 안해도됨
 
@@ -55,7 +56,13 @@ export default function(SpecificComponent, option, adminRoute = null){
             console.log('Auth adminRoute',adminRoute)
             console.log('response.payload.isAdmin',response.payload.isAdmin)
             props.history.push('/')
+
+
+            
           } else {
+
+
+
             //로그인한 유저는 출입 불가능한 페이지 갈 떄
             if(option === false){
               console.log('Auth option',option)
