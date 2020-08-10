@@ -30,15 +30,26 @@ function LandingPage(props) {
       }) 
   }
 
+  const onLogin = () => {
+    props.history.push("/login")
+}
+
+  
+const onRegister = () => {
+  props.history.push("/register")
+}
+
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', alignItems:'center'
       ,width: '100%', height: '100vh'
     }}>
+      <span>
       <h2>LandingPage</h2>
-      <button onClick={onClickHandler}>
-            로그아웃
-      </button>
+      <button onClick={onRegister}>회원가입</button> <br/>
+      <button onClick={onLogin}>로그인</button>   <br/>
+      <button onClick={onClickHandler}> 로그아웃 </button>
+      </span>
     </div>
   )
 }
