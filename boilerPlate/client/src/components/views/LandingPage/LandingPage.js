@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
+import { withRouter} from 'react-router-dom'
 
 function LandingPage(props) {
 
@@ -22,7 +23,7 @@ function LandingPage(props) {
         //로그인 상태가 아니면 server에서 success가 아니고 isauth, error를 보냄 
         if(response.data.success){
           alert("로그아웃에 성공했습니다.")
-          props.history.push("/")   
+          props.history.push("/login")   
         } else {
           alert("로그아웃 하는데 실패 했습니다.")
         }
@@ -42,4 +43,4 @@ function LandingPage(props) {
   )
 }
 
-export default LandingPage
+export default withRouter(LandingPage)

@@ -1,7 +1,8 @@
 import axios from "axios"
 import {
   LOGIN_USER,
-  REGISTER_USER
+  REGISTER_USER,
+  AUTH_USER
 } from './types'
 
 //dataToSubmit은 Loginpage에서 
@@ -36,6 +37,20 @@ export function registerUser(dataToSubmit){
   console.log('request: ',request)
   return {
     type: REGISTER_USER,
+    payload: request
+  }
+}
+
+//axios가 get이기 떄문에 body 부분은 필요가 없다.
+export function auth(){
+
+  const request = axios
+  .get("/api/users/auth")
+  .then((respone)=> respone.data)
+  console.log('request: ',request)
+
+  return {
+    type: AUTH_USER,
     payload: request
   }
 }

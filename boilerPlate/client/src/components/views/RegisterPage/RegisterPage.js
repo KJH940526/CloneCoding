@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../../_actions/user_action";
 
-
+import { withRouter} from 'react-router-dom'
+//props.history withrouter를 이용한다.
 
 function RegisterPage(props) {
 
@@ -97,4 +98,4 @@ function RegisterPage(props) {
   )
 }
 
-export default RegisterPage
+export default withRouter(RegisterPage)

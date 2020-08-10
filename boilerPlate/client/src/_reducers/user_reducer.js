@@ -1,6 +1,7 @@
 import {
   LOGIN_USER,
-  REGISTER_USER
+  REGISTER_USER,
+  AUTH_USER
 } from '../_actions/types';
 
 
@@ -24,6 +25,10 @@ export default function(state = {}, action){
       return { ...state, register: action.payload }
                         //server에서 온 respons를 action.paylod에 저장
       break;   
+
+      case AUTH_USER:     //usrData라고 이름지었음
+        return { ...state, userData: action.payload }
+        break;   
 
 
 
