@@ -1,57 +1,61 @@
-import React, { useEffect } from 'react'
-import axios from 'axios'
-import { withRouter} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+// import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { API_URL, API_KEY } from "../../config";
 
-function LandingPage(props) {
+function LandingPage() {
 
-
-  useEffect(()=>{
-    //aixos.get은 get요청을 서버로 보낸다. 엔드포인트는 api/hello
-    axios.get('/api/hello') //endpoint를 정하고
-              //만들어진 엔드포인트로 요청을 서버로 보낸다.
-    
-    //서버에서 데이트를 받은 이후(then)
-    //그리고 서버에서 돌아오는 response를 콘솔창에다가 보여준다.
-    //respone = 서버에서 준 정보들/
-    .then(response => console.log(response)) //response도 해보기
-  },[])
-
-  const onClickHandler = () => {
-    axios.get('api/users/logout')
-      .then(response =>{
-        console.log('response.data : ',response.data)  //server에서 success: ture가 넘어온다 json으로 보낸
-        //로그인 상태가 아니면 server에서 success가 아니고 isauth, error를 보냄 
-        if(response.data.success){
-          alert("로그아웃에 성공했습니다.")
-          props.history.push("/login")   
-        } else {
-          alert("로그아웃 하는데 실패 했습니다.")
-        }
-      }) 
-  }
-
-  const onLogin = () => {
-    props.history.push("/login")
-}
+  //2. 가져온 데이터를 state에 넣는다
+                        //처음 State는 배열이 되어야된다.
+                        //왜냐면 넘어온 정보들을 array에 넣어주기 위해서
+  const [Movies, setMovies] = useState([])
 
   
-const onRegister = () => {
-  props.history.push("/register")
-}
+  //1.api를 통해서 데이터 가져오기 => useEffect + fetch
+  useEffect(()=>{
+    const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+    //fetch와 axios의 차이점 fetch는 json으로 한번 더 묶어줘야한다.
+    //그냥 axios쓰자
+
+    fetch(endpoint)
+    .then(response => response.json())
+    .then(response => console.log('endpoint',response))
+    //아래에서 response.results로 한 이유는 json으로 받아온 데이터의
+    //배열의 이름이 results이기 떄문 그리고 그것을 setMoives로 Movies에 넣어줌
+
+    fetch(endpoint)
+    .then(response => response.json())
+    .then(response =>{
+      setMovies([response.results])
+    })
+  },[])
+
+  console.log('MoVies',Movies)
+
 
   return (
-    <div style={{
-      display: 'flex', justifyContent: 'center', alignItems:'center'
-      ,width: '100%', height: '100vh'
-    }}>
-      <span>
-      <h2>LandingPage</h2>
-      <button onClick={onRegister}>회원가입</button> <br/>
-      <button onClick={onLogin}>로그인</button>   <br/>
-      <button onClick={onClickHandler}> 로그아웃 </button>
-      </span>
+
+    <div style={{width:'100%', margin:'0'}}>
+
+    {/* Main Image */}
+
+    <div style={{width:'85%', margin:'1rem auto'}}>
+
+      <h2>Movies by latest</h2>
+      <br/>
+
+      {/* Movie Grid Cards */}
+
     </div>
+
+
+    <div style={{display: 'flex', justifyContent: 'center'}}>
+        <button> Load More</button>
+    </div>
+
+    </div>
+  
   )
 }
 
-export default withRouter(LandingPage)
+export default withRouter(LandingPage);

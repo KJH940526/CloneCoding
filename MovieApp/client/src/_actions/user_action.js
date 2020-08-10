@@ -8,7 +8,8 @@ import {
 //dataToSubmit은 Loginpage에서 
 //dispatch를 통해서 전달된 body를 받는다. 
 export function loginUser(dataToSubmit){
-  console.log('클라이언트 입력한: ',dataToSubmit)
+
+  // console.log('클라이언트 입력한: ',dataToSubmit)
 
   const request = axios
   //서버에다가 클라이언트에서 받아온 body를 dataToSubmit이라
@@ -16,7 +17,8 @@ export function loginUser(dataToSubmit){
   .post("/api/users/login", dataToSubmit)
   .then((respone)=> respone.data)
   //그러고 나서 서버에서 받은 데이터를 const request에 저장을한다.
-  console.log('request: ',request)
+
+  // console.log('request: ',request)
   //30강 7분 30초
   //받을 값을 리턴을 시켜서 리듀서로 보내야한다
   //왜냐하면 리듀서에서
@@ -30,11 +32,15 @@ export function loginUser(dataToSubmit){
 }
 
 export function registerUser(dataToSubmit){
-  console.log('클라이언트 입력한: ',dataToSubmit)
+
+  // console.log('클라이언트 입력한: ',dataToSubmit)
+
   const request = axios
   .post("/api/users/register", dataToSubmit)
   .then((respone)=> respone.data)
-  console.log('request: ',request)
+
+  // console.log('request: ',request)
+
   return {
     type: REGISTER_USER,
     payload: request
@@ -47,7 +53,8 @@ export function auth(){
   const request = axios
   .get("/api/users/auth")
   .then((respone)=> respone.data)
-  console.log('request: ',request)
+
+  // console.log('request: ',request)
 
   return {
     type: AUTH_USER,

@@ -1,5 +1,4 @@
 import React,{useEffect} from 'react'
-import Axios from 'axios'
 import {useDispatch} from 'react-redux'
 import { auth } from '../_actions/user_action'
 
@@ -25,9 +24,10 @@ export default function(SpecificComponent, option, adminRoute = null){
                 //리덕스 auth는 액션의 이름
               //server에 가져온 데이더가 모두 response에 들어있다
     dispatch(auth()).then((response) => {
-        console.log('Auth ',response)
-        console.log('Auth option',option)
-        console.log('Auth adminRoute',adminRoute)
+
+        // console.log('Auth ',response)
+        // console.log('Auth option',option)
+        // console.log('Auth adminRoute',adminRoute)
 
         //로그인, 비로그인, 어드민인가 아닌가를 분기처리한다.
         
@@ -35,9 +35,11 @@ export default function(SpecificComponent, option, adminRoute = null){
         if(!response.payload.isAuth){
             //옵션이 트루인 페이지를 들어갈라고 하면 
           if(option) {
-            console.log('Auth option',option)
-            console.log('Auth adminRoute',adminRoute)
-            console.log('response.payload.isAdmin',response.payload.isAdmin)
+
+            // console.log('Auth option',option)
+            // console.log('Auth adminRoute',adminRoute)
+            // console.log('response.payload.isAdmin',response.payload.isAdmin)
+
               props.history.push('/login')
             }
         } else {
@@ -52,9 +54,10 @@ export default function(SpecificComponent, option, adminRoute = null){
           //isAdmin이 false인 경우는 관리자 페이지를 못가게 막아준다.
           if (adminRoute && !response.payload.isAdmin){
             
-            console.log('Auth option',option)
-            console.log('Auth adminRoute',adminRoute)
-            console.log('response.payload.isAdmin',response.payload.isAdmin)
+            // console.log('Auth option',option)
+            // console.log('Auth adminRoute',adminRoute)
+            // console.log('response.payload.isAdmin',response.payload.isAdmin)
+
             props.history.push('/')
 
 
@@ -75,7 +78,7 @@ export default function(SpecificComponent, option, adminRoute = null){
       })  
         //하면 일단 atuh로 가서 그 유저가 로그인 한 유저인지 아닌지
         //쿠키를 이용해서 확인하고  
-    },[])
+    }, [])
 
     
     return ( //검사하는 컴포넌트

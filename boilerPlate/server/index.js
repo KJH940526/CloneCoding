@@ -5,6 +5,9 @@ const port = 5000     //포트번호
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
+const cors = require('cors')
+app.use(cors())
+
 
 const config = require('./config/key')
 

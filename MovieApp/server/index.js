@@ -2,11 +2,17 @@ const express = require('express')  //express modules를 가져온다
 const app = express() //express 함수를 이용해서 새로운 express app을 만들고
 const port = 5000     //포트번호
 
+const cors = require('cors')
+
+
+
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
 
 const config = require('./config/key')
+
+app.use(cors())
 
 //application/x-www-form-urlencode 처럼 온 타입으로 온 데이터를 분석한다
 app.use(bodyParser.urlencoded({extended: true}));
