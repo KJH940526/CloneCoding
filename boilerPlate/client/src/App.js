@@ -24,10 +24,13 @@ function App() {
           <Route exact path="/login" component={LoginPage} />
           {/*exact path랑 그냥 path의 차이점은 무엇인가?*/}
 
-          <Route exact path="/register">
+          {/* <Route exact path="/register">
             <RegisterPage/>
-          </Route>
+          </Route> */}
 
+            {/* 위처럼 하면 props를 못 받아오는데 이유는?? */}
+          <Route exact path="/register" component={RegisterPage} />
+{/*component가 있어야지 컴포넌트 기능 ex)props를 받을 수 있다.*/}
         </Switch>
       </div>
     </Router>

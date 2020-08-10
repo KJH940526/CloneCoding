@@ -201,8 +201,9 @@ app.get('/api/users/auth', auth ,(req,res)=>{
 app.get("/api/users/logout", auth, (req,res)=>{
   console.log("6번 req.user", req.user);
       //_id는 db에 있는 _id   //req.user._id는 auth 미들웨어에서 가져온다.
-  User.findByIdAndUpdate({_id: req.user._id}, //검색대상
-    { token: ""},//수정대상 //db에서 확인하기
+  User.findByIdAndUpdate(
+    {_id: req.user._id}, //검색대상
+    { token: ""},       //수정대상 //db에서 확인하기
     (err,user)=>{
       if(err) return res.json({success: false, err})
       return res.status(200).send({

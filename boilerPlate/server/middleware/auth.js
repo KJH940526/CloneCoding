@@ -1,9 +1,11 @@
 const { User } = require('../models/User')
 
-let auth = (req, res, next)=> {
+let auth = (req, res, next) => {
   console.log(req.cookies)
   console.log("0번 클라이언트에 있는 토큰: ",req.cookies.x_auth)
   //인증처리를 하는곳
+  //client의 쿠키에저 가져온 x_auth가 사라지는건 아니다.
+  //종료 할떄 생김
 
   // client 쿠키에서 토큰을 가져온다.
   let token = req.cookies.x_auth;
@@ -25,5 +27,5 @@ let auth = (req, res, next)=> {
   })
 }
 
-module.exports = {auth}
+module.exports = { auth }
 //auth안에서 인증처리를 한다.

@@ -19,11 +19,12 @@ function LandingPage(props) {
     axios.get('api/users/logout')
       .then(response =>{
         console.log('response.data : ',response.data)  //server에서 success: ture가 넘어온다 json으로 보낸
-
-        if(response.data.loginSuccess){
-          props.history.push('/login')
-        } else{
-          alert('로그아웃 하는데 실패 했습니다.')
+        //로그인 상태가 아니면 server에서 success가 아니고 isauth, error를 보냄 
+        if(response.data.success){
+          alert("로그아웃에 성공했습니다.")
+          props.history.push("/")   
+        } else {
+          alert("로그아웃 하는데 실패 했습니다.")
         }
       }) 
   }
