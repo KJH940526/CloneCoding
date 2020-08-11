@@ -3,15 +3,9 @@ import React, { useState } from "react";
 import { withRouter} from 'react-router-dom'
 import { loginUser } from "../../../_actions/user_action";
 
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 
 import { useDispatch } from "react-redux";
 
-
-              //antd에서 가져옴
-const { Title } = Typography;
 
 function LoginPage(props) {
   //redux를 사용하기 위한 dispatch
