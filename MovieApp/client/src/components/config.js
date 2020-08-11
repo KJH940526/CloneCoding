@@ -5,3 +5,5 @@ export const IMAGE_BASE_URL = 'http://image.tndb.org/t/p'
 export const API_KEY = '56ecbb40f6b57380d2aea5faffe76d6e'
 
 
+//SERVER ROUTES
+export const USER_SERVER = '/api/users';
