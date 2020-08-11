@@ -1,0 +1,57 @@
+
+https://stackoverflow.com/questions/44573592/why-do-node-modules-go-into-staging-folder
+
+노드 모듈이 .staging 폴더로 이동할 떄
+
+//get과 post의 차이 => 간단하게 대충 요약하자면 데이터를 조회는 get, 생성및 수정시에는 post
+https://hongsii.github.io/2017/08/02/what-is-the-difference-get-and-post/
+https://mangkyu.tistory.com/17
+https://blog.outsider.ne.kr/312
+https://interconnection.tistory.com/72
+
+get은 서버로부터 정보를 조회하기 위해 설계된 메소드
+GET은 요청을 전송할 때 필요한 데이터를 Body에 담지 않고, 쿼리스트링을 통해 전송합니다. 
+
+DB에 추가로 정보를 처리하지않고, 저장된 Data를 단순 요청하는 정도로 사용합니다.
+
+
+POST는 리소스를 생성/변경하기 위해 설계되었기 때문에 GET과 달리 전송해야될 데이터를 HTTP 메세지의 Body에 담아서 전송합니다. HTTP 메세지의 Body는 길이의 제한없이 데이터를 전송할 수 있습니다.
+DB에 추가로 서버에서 갱신 작업을 할때, 서버에서 정보가 가공되어 응답하는 경우에 사용합니다.
+
+쿠키와 로컬스토리지의 차이
+https://kamang-it.tistory.com/entry/Web%EC%A1%B0%EA%B8%88-%EB%8D%94-%EC%9E%90%EC%84%B8%ED%9E%88cookie%EB%8A%94-%EB%84%88%EB%AC%B4-%EA%B5%AC%EC%8B%9D%EC%95%84%EB%83%90-%EC%9D%B4%EC%A0%9C%EB%B6%80%ED%84%B4-Web-Storage
+https://medium.com/@erwinousy/%EC%BF%A0%ED%82%A4-vs-%EB%A1%9C%EC%BB%AC%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C-28b8db2ca7b2
+https://seunghyun90.tistory.com/43
+
+
+api 가져오기
+https://www.themoviedb.org/ 
+-> 로그인-> 프로필클릭하고 설정 -> api -> 동의
+해서 API키 가져오기
+
+API키
+56ecbb40f6b57380d2aea5faffe76d6e 
+
+API를 사용하기 위해서 TEXT EDITOR에서 설정을 해줘야한다.
+
+설정하는 방법
+GET MOVIE BY LATEST
+
+공통적인 주소 API_URL = https://api.themoviedb.org/3
+get movie by latest
+https://api.themoviedb.org/3/movie/latest?api_key=56ecbb40f6b57380d2aea5faffe76d6e&language=en-us
+
+
+이미지는 어떻게 가져오나?
+공통적인 주소 https://image.tmdb.org/t/p
+
+clinet에 configjs에 설정한다 공통적인 주소는
+
+4장 landingpage 만들기
+
+1. 전체적인 템플릿 만들기
+2. api에서 가져온 모든 데이터를 state에 넣기
+3. mainimage component를 만들기
+4. grid card component를 만들기
+5. load more 함수 만들기
+
