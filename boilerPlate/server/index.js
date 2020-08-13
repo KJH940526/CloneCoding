@@ -186,6 +186,8 @@ app.get('/api/users/auth', auth ,(req,res)=>{
     lastname: req.user.lastname,
     role: req.user.role,
     image: req.user.image,
+
+    // password : req.user.password
   })
 //role이 0이면 일반유저 role이 0이 아니면 관리자
 //어떤 페이지에서든지 유저정보를 주기 때문에 모든 데이터가 있어야한다.
@@ -215,6 +217,23 @@ app.get("/api/users/logout", auth, (req,res)=>{
 })
 // 
 
+
+//auth가 있어야 인증이 되어서 _id를 가지고 변경할수 있다.
+//이제 바꾼 비밀번호를 다시 암호화 해주면 될듯?
+app.post("/api/users/modify", auth, (req, res)=>{
+  console.log("auth", req.user)
+  console.log("req.body", req.body.password)
+  User.findByIdAndUpdate(
+    {_id: req.user._id},
+    { password: req.body.password},
+    (err,user)=>{
+      if(err) return res.json({success: false, err})
+      return res.status(200).send({
+        success:true,
+        user : user
+      })
+    })
+})
 
 
 

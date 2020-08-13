@@ -10,7 +10,12 @@ import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage'
 import RegisterPage from './components/views/RegisterPage/RegisterPage'
 
+//- 추가한거
+import MyPage from './components/views/MyPage/MyPage';
+
+
 import Auth from './hoc/auth'
+
 
 function App() {
   return (
@@ -42,6 +47,9 @@ function App() {
             {/* 위처럼 하면 props를 못 받아오는데 이유는?? */}
           <Route exact path="/register" component={Auth(RegisterPage,false)} />
           {/*component가 있어야지 컴포넌트 기능 ex)props를 받을 수 있다.*/}
+        
+
+          <Route exact path="/mypage" component={Auth(MyPage,true)} />
         </Switch>
       </div>
     </Router>

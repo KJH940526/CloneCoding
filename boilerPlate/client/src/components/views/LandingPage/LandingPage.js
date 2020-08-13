@@ -39,6 +39,10 @@ const onRegister = () => {
   props.history.push("/register")
 }
 
+const onMyPage = () => {
+  props.history.push("/mypage")
+}
+
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', alignItems:'center'
@@ -48,7 +52,8 @@ const onRegister = () => {
       <h2>LandingPage</h2>
       <button onClick={onRegister}>회원가입</button> <br/>
       <button onClick={onLogin}>로그인</button>   <br/>
-      <button onClick={onClickHandler}> 로그아웃 </button>
+      <button onClick={onClickHandler}> 로그아웃 </button> <br/>
+      <button onClick={onMyPage}> 회원수정 </button>
       </span>
     </div>
   )
