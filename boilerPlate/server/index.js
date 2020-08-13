@@ -95,6 +95,9 @@ app.post('/api/users/register',(req,res)=>{
 
 
 
+
+//비밀번호 변경시 모델 유저에있는 comparePassword
+//를 bcrypt를 할수 없어서? 로그인이 안되지만, 데이터 베이스에 저장된것은 확인햇다.
 app.post('/api/users/login',(req,res)=>{
 
   console.log("0번 클라이언트에서 입력: ",req.body)
@@ -125,6 +128,10 @@ app.post('/api/users/login',(req,res)=>{
   //req.body.password는 클라이언트에서 입력한 비밀번호
   //comparePasswrod                                              
                   //클라이언트비밀번호가 맞다면 isMatch를 가져옴
+
+
+
+
   user.comparePassword(req.body.password, (err, isMatch)=>{
   //매소드를 유저 model에서 만듬
     
@@ -186,8 +193,6 @@ app.get('/api/users/auth', auth ,(req,res)=>{
     lastname: req.user.lastname,
     role: req.user.role,
     image: req.user.image,
-
-    // password : req.user.password
   })
 //role이 0이면 일반유저 role이 0이 아니면 관리자
 //어떤 페이지에서든지 유저정보를 주기 때문에 모든 데이터가 있어야한다.
