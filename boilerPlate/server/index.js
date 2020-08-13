@@ -5,8 +5,8 @@ const port = 5000     //포트번호
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
-const cors = require('cors')
-app.use(cors())
+// const cors = require('cors')
+// app.use(cors())
 
 
 const config = require('./config/key')
@@ -109,7 +109,6 @@ app.post('/api/users/login',(req,res)=>{
   //req.body.email은 클라이언트에서 요청받은 이메일
                                       //user정보가 들어있음
   User.findOne({ email: req.body.email}, (err, user)=> {
-
     console.log('1번 clinet 입력: ',req.body) //클라이언트에서 요청하는
     //1번으로 실행됨
     console.log('1-1번 DB에 있는 user정보: ',user)

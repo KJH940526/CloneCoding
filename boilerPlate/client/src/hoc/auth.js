@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import Axios from 'axios'
+// import Axios from 'axios'
 import {useDispatch} from 'react-redux'
 import { auth } from '../_actions/user_action'
 
@@ -75,7 +75,7 @@ export default function(SpecificComponent, option, adminRoute = null){
       })  
         //하면 일단 atuh로 가서 그 유저가 로그인 한 유저인지 아닌지
         //쿠키를 이용해서 확인하고  
-    },[])
+    }, [])
 
     
     return ( //검사하는 컴포넌트

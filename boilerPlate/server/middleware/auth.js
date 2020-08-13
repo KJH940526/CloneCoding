@@ -1,7 +1,7 @@
 const { User } = require('../models/User')
 
 let auth = (req, res, next) => {
-  console.log(req.cookies)
+  console.log("쿠키",req.cookies)
   console.log("0번 클라이언트에 있는 토큰: ",req.cookies.x_auth)
   //인증처리를 하는곳
   //client의 쿠키에저 가져온 x_auth가 사라지는건 아니다.
@@ -11,7 +11,7 @@ let auth = (req, res, next) => {
   let token = req.cookies.x_auth;
 
   // 토큰을 복호화 한다음에 데이터 베이스에서 유저를 찾는다.
-  //findeByToken은 만들어준 메소드
+  //findeByToken은 User.js에서 만들어준 메소드
   User.findByToken(token, (err,user)=> {
     console.log('2번 auth token: ', token)
     console.log('3번 auth user: ', user)
@@ -23,6 +23,7 @@ let auth = (req, res, next) => {
     req.user = user;
     console.log('4번 auth req.token: ', req.token)
     console.log('5번 auth req.user: ', req.user)
+
     next()//next를 하는 이유는 미들웨어에서 다음으로 가게 하기 위해서
   })
 }
