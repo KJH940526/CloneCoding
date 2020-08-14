@@ -49,7 +49,8 @@ const userSchema = mongoose.Schema({
 // 그러고 나서 next함수로 save로 보낸다
 userSchema.pre('save', function( next ) {
     var user = this; //this는 위에 있는 자기자신 userSchema를 뜻함
-
+    console.log("pre에 들어왔어요")
+    // console.log("user.js",user)
 
     //isModified는 몽구스 메소드
     //이것을 안해주면 회원가입할때 뿐만아니라 save를 할떄마다 
@@ -103,15 +104,19 @@ userSchema.pre('save', function( next ) {
 // });
 
 
-userSchema.pre("findByIdAndUpdate", function (next) {
+userSchema.pre('updateOne', function (next) {
   let user = this; //arrow function 대신 function을 사용한 이유
   //password 변경시에만 실행 -다른 정보 수정할 때는 비밀번호를 암호화 하지 않음.
-  if(user.isModified('password')){
+  console.log("pre에 들어왔어요")
+  console.log("user.js",user._update.password)
+  if (user._update.password) {
     bcrypt.genSalt(saltRounds, function (err, salt) {
+      console.log("genSalt에 들어왔어요")
       if (err) return next(err);
-      bcrypt.hash(user.password, salt, function (err, hash) {
+      bcrypt.hash(user._update.password, salt, function (err, hash) {
         if (err) return next(err);
-        user.password = hash;
+        user._update.password = hash;
+        console.log(hash)
         next();
       });
     });
@@ -119,6 +124,7 @@ userSchema.pre("findByIdAndUpdate", function (next) {
     next();
   }
 });
+
 
 
 // 바울이형네조 

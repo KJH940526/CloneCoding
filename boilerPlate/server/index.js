@@ -135,7 +135,7 @@ app.post('/api/users/login',(req,res)=>{
                   //클라이언트비밀번호가 맞다면 isMatch를 가져옴
 
 
-
+//--여기부터 주석
 
   user.comparePassword(req.body.password, (err, isMatch)=>{
   //매소드를 유저 model에서 만듬
@@ -148,7 +148,8 @@ app.post('/api/users/login',(req,res)=>{
       loginSuccess : false, 
       message: "비밀번호가 틀렸습니다"
     })
-  
+//--여기 주석  
+
     //3.비밀번호가 같다면 Token 생성
     //토큰을 생성하기 위해서 jsonwebtoken 모듈을 인스톨한다.
     //https://www.npmjs.com/package/jsonwebtoken
@@ -176,7 +177,7 @@ app.post('/api/users/login',(req,res)=>{
         // // Cookies that have been signed
         // console.log('Signed Cookies: ', req.signedCookies)        
       })
-    })
+    }) //-여기주석
   })
 })
 
@@ -228,48 +229,117 @@ app.get("/api/users/logout", auth, (req,res)=>{
 // 
 
 
-
-
-
-app.post("/api/users/modify", auth, (req, res)=>{
-  console.log("auth", req.user)
-  console.log("req.body", req.body.password)
-
-  // const user = new User(req.body)
-
-  console.log("회원정보 수정", req.body)
-  
-  User.findByIdAndUpdate(
-    {_id: req.user._id},
-    { password: req.body},
-    (err,user)=>{
-      if(err) return res.json({success: false, err})
-      return res.status(200).send({
-        success:true,
-        // user : user
-      })
-    })
-})
+// app.post("/api/users/modify", auth, (req, res)=>{
+//   console.log("auth", req.user)
+//   console.log("req.body", req.body.password)
+//   // const user = new User(req.body)
+//   console.log("회원정보 수정", req.body)
+//   User.findByIdAndUpdate(
+//     {_id: req.user._id},
+//     { password: req.body},
+//     (err,user)=>{
+//       if(err) return res.json({success: false, err})
+//       return res.status(200).send({
+//         success:true,
+//         // user : user
+//       })
+//     })
+// })
 
 // //auth가 있어야 인증이 되어서 _id를 가지고 변경할수 있다.
 // //이제 바꾼 비밀번호를 다시 암호화 해주면 될듯?
 app.post("/api/users/modify", auth, (req, res)=>{
-  console.log("auth", req.user)
-  console.log("req.body", req.body.password)
-  User.findByIdAndUpdate(
-    {_id: req.user._id},
-    { password: req.body.password},
+  console.log("auth 모디파이", req.user)
+  console.log("req.body 모디파이", req.body.password)
+  User.findOne({ _id: req.user.id }, (err, user) => {
+    console.log("파인드원",user)
+  if (err) return res.json({ success: false, err });
+  User.updateOne(
+    {_id: user._id},
+    { password: user.password},
     (err,user)=>{
       if(err) return res.json({success: false, err})
       return res.status(200).send({
         success:true,
         user : user
-      })
-    })
+        })
+      }
+    )
+  })
 })
 
 
+// app.post("/updateProfile", (req, res) => {
+//   User.findOne({ _id: req.body.id }, (err, user) => {
+//     if (err) return res.json({ success: false, err });
+//     User.updateOne(
+//       { _id: user._id },
+//       {
+//         $set: {
+//           password: req.body.newPassword,
+//           image: req.body.newImage,
+//           name: req.body.newName,
+//         },
+//       },
+//       (err, user) => {
+//         if (err) return res.json({ success: false, err });
+//         res.status(200).json({ success: true, user });
+//       }
+//     );
+//   });
+// });
 
+
+
+
+
+
+
+
+
+
+
+
+// // //auth가 있어야 인증이 되어서 _id를 가지고 변경할수 있다.
+// // //이제 바꾼 비밀번호를 다시 암호화 해주면 될듯?
+// app.post("/api/users/modify", auth, (req, res)=>{
+//   console.log("auth", req.user)
+//   console.log("req.body", req.body.password)
+//   User.findByIdAndUpdate(
+//     {_id: req.user._id},
+//     { 
+//       $set:{
+//           password: req.body.password
+//         }
+//     },
+//     (err,user)=>{
+//       if(err) return res.json({success: false, err})
+//       return res.status(200).send({
+//         success:true,
+//         user : user
+//       })
+//     })
+// })
+
+// app.post("/api/users/modify", (req, res) => {
+//   User.findOne({ _id: req.body.id }, (err, user) => {
+//     if (err) return res.json({ success: false, err });
+//     User.updateOne(
+//       { _id: user._id },
+//       {
+//         $set: {
+//           password: req.body.newPassword,
+//           image: req.body.newImage,
+//           name: req.body.newName,
+//         },
+//       },
+//       (err, user) => {
+//         if (err) return res.json({ success: false, err });
+//         res.status(200).json({ success: true, user });
+//       }
+//     );
+//   });
+// });
 
 // 바울이형네조 
 // router.post("/updateProfile", (req, res) => {
