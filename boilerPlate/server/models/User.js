@@ -108,6 +108,7 @@ userSchema.pre('updateOne', function (next) {
   let user = this; //arrow function 대신 function을 사용한 이유
   //password 변경시에만 실행 -다른 정보 수정할 때는 비밀번호를 암호화 하지 않음.
   console.log("pre에 들어왔어요")
+  // console.lpg(user._update.password)
   console.log("user.js",user._update.password)
   if (user._update.password) {
     bcrypt.genSalt(saltRounds, function (err, salt) {
