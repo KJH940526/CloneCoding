@@ -14,7 +14,7 @@ export function loginUser(dataToSubmit){
   //서버에다가 클라이언트에서 받아온 body를 dataToSubmit이라
   //는 인수로 받은다음에 서버로 요청을 보낸다.
   .post("/api/users/login", dataToSubmit)
-  .then((respone)=> respone.data)
+  .then((response)=> response.data)
   //그러고 나서 서버에서 받은 데이터를 const request에 저장을한다.
   console.log('request: ',request)
   //30강 7분 30초
@@ -33,7 +33,7 @@ export function registerUser(dataToSubmit){
   console.log('클라이언트 입력한: ',dataToSubmit)
   const request = axios
   .post("/api/users/register", dataToSubmit)
-  .then((respone)=> respone.data)
+  .then((response)=> response.data)
   console.log('request: ',request)
   return {
     type: REGISTER_USER,
@@ -46,7 +46,7 @@ export function auth(){
 
   const request = axios
   .get("/api/users/auth")
-  .then((respone)=> respone.data)
+  .then((response)=> response.data)
   console.log('request: ',request)
 
   return {

@@ -71,24 +71,26 @@ function LoginPage(props) {
 
 
   return (
-    <div style={{
-      display: 'flex', justifyContent: 'center', alignItems:'center'
-      ,width: '100%', height: '100vh'
-    }}>
-      <form style={{display:'flex', flexDirection: 'column'}}
-          onSubmit={onSubmitHandler}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={onSubmitHandler}
       >
         <label>Email</label>
-        <input type="email" value={Email} onChange={onEmailHandler}/>
-        <label>PassWord</label>
-        <input type="password" value={Password} onChange={onPasswordHandler}/>
-        <br/>
-
-        <button type = "submit">
-          Login
-        </button>
+        <input type="email" value={Email} onChange={onEmailHandler} />
+        <label>Password</label>
+        <input type="Password" value={Password} onChange={onPasswordHandler} />
+        <br />
+        <button type="submit">Login</button>
       </form>
-      
     </div>
   )
 }

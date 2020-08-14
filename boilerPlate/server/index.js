@@ -5,8 +5,9 @@ const port = 5000     //포트번호
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
-// const cors = require('cors')
-// app.use(cors())
+
+const cors = require('cors')
+app.use(cors())
 
 
 const config = require('./config/key')
@@ -61,11 +62,13 @@ app.get('/api/hello',(req,res)=>{
 
 
 
+
+
+
 //회원가입을 위한 라우트(경로)를 만듬
 //라우트(경로) 라우팅(경로를 찾아가게 하는 과정)
 app.post('/api/users/register',(req,res)=>{
 
-  
   console.log('clinet에서 입력: ',req.body)
 
   //회원 가입 할떄 필요한 정보들을 client에서 가져오면
@@ -73,6 +76,8 @@ app.post('/api/users/register',(req,res)=>{
   //객체와 인스턴스 클래스의 차이 다시 한번 보기
   //user라는 이름을가진 User객체의 인스턴스를 만들어준다.
   const user = new User(req.body)
+  // console.log("req.",user)
+  // console.log(User)
 
   //req.body 안에는 json형식으로 아이디, password 이런식으로 들어온다.
   // json형식으로 되어있기 때문에 postman을 사용할때도 json으로 보낸다
@@ -223,8 +228,31 @@ app.get("/api/users/logout", auth, (req,res)=>{
 // 
 
 
-//auth가 있어야 인증이 되어서 _id를 가지고 변경할수 있다.
-//이제 바꾼 비밀번호를 다시 암호화 해주면 될듯?
+
+
+
+app.post("/api/users/modify", auth, (req, res)=>{
+  console.log("auth", req.user)
+  console.log("req.body", req.body.password)
+
+  // const user = new User(req.body)
+
+  console.log("회원정보 수정", req.body)
+  
+  User.findByIdAndUpdate(
+    {_id: req.user._id},
+    { password: req.body},
+    (err,user)=>{
+      if(err) return res.json({success: false, err})
+      return res.status(200).send({
+        success:true,
+        // user : user
+      })
+    })
+})
+
+// //auth가 있어야 인증이 되어서 _id를 가지고 변경할수 있다.
+// //이제 바꾼 비밀번호를 다시 암호화 해주면 될듯?
 app.post("/api/users/modify", auth, (req, res)=>{
   console.log("auth", req.user)
   console.log("req.body", req.body.password)
@@ -241,6 +269,28 @@ app.post("/api/users/modify", auth, (req, res)=>{
 })
 
 
+
+
+// 바울이형네조 
+// router.post("/updateProfile", (req, res) => {
+//   User.findOne({ _id: req.body.id }, (err, user) => {
+//     if (err) return res.json({ success: false, err });
+//     User.updateOne(
+//       { _id: user._id },
+//       {
+//         $set: {
+//           password: req.body.newPassword,
+//           image: req.body.newImage,
+//           name: req.body.newName,
+//         },
+//       },
+//       (err, user) => {
+//         if (err) return res.json({ success: false, err });
+//         res.status(200).json({ success: true, user });
+//       }
+//     );
+//   });
+// });
 
 
 //포트번호 5000번에서 만들어진 app를 실행한다.

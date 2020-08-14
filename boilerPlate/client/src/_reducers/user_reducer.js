@@ -9,6 +9,7 @@ import {
 //type으로 분류를 한다음에 다른 접근을 하기 위해서
 export default function(state = {}, action){
   //state는 들어오는 previousState이다
+  console.log(state)
   console.log('types.js에서 넣음 =', action.type)
   switch(action.type){
     case LOGIN_USER:

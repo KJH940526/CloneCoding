@@ -6,7 +6,7 @@ const saltRounds = 10
 //saltRounds는 문자열의 바이트의 수 npm
 
 const jwt = require('jsonwebtoken')
-const { json } = require('body-parser')
+
 
 //꼭 읽기
 //https://www.zerocho.com/category/MongoDB/post/59a1870210b942001853e250
@@ -73,6 +73,73 @@ userSchema.pre('save', function( next ) {
       next()
   }
 });
+
+
+
+
+// userSchema.pre('update', function( next ) {
+//   var user = this; //this는 위에 있는 자기자신 userSchema를 뜻함 //arrow function 대신 function을 사용한 이유
+//   //isModified는 몽구스 메소드
+//   //이것을 안해주면 회원가입할때 뿐만아니라 save를 할떄마다 
+//   //패스워드를 암호화를 한다. 따라서 
+//   //비밀번호를 바꿀떄만 암호화 되도록 한는법
+//   if(user.isModified('password')){
+//   //비밀번호를 암호화시킨다.
+//   //솔트는 임의 문자열..  
+//   bcrypt.genSalt(saltRounds, function(err, salt){
+//     if(err) return next(err)//에러가 생기면 save로 간다.
+//     //첫번쨰 인자로 암호화 이전에 패스워드          hash는 암호화된 비밀번호
+//     bcrypt.hash(user.password, salt, function(err, hash){
+//       if(err) return next(err)
+//       //암호화 이전에 패스워드를 hash된 비밀번호로 바꿔준다
+//       user.password = hash   
+//       next()
+//     })
+//   })
+//   //비밀번호를 바꾸는게 아니라 따른거를 바꿀떄는 
+// } else {
+//     next()
+// }
+// });
+
+
+userSchema.pre("findByIdAndUpdate", function (next) {
+  let user = this; //arrow function 대신 function을 사용한 이유
+  //password 변경시에만 실행 -다른 정보 수정할 때는 비밀번호를 암호화 하지 않음.
+  if(user.isModified('password')){
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      if (err) return next(err);
+      bcrypt.hash(user.password, salt, function (err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    next();
+  }
+});
+
+
+// 바울이형네조 
+// userSchema.pre("updateOne", function (next) {
+//   let user = this; //arrow function 대신 function을 사용한 이유
+//   //password 변경시에만 실행 -다른 정보 수정할 때는 비밀번호를 암호화 하지 않음.
+//   if (user._update.$set.password) {
+//     bcrypt.genSalt(saltRounds, function (err, salt) {
+//       if (err) return next(err);
+//       bcrypt.hash(user._update.$set.password, salt, function (err, hash) {
+//         if (err) return next(err);
+//         user._update.$set.password = hash;
+//         next();
+//       });
+//     });
+//   } else if (user._update.$set.image) {
+//     next();
+//   }
+// });
+
+
 
 
                   //만든메소드
