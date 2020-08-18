@@ -119,9 +119,7 @@ app.post('/api/users/register',(req,res,next)=>{
     }
   })
 
-
-
-
+  
   //회원 가입 할떄 필요한 정보들을 client에서 가져오면
   //그것들을 데이터베이스에 넣어준다.
   //객체와 인스턴스 클래스의 차이 다시 한번 보기
@@ -132,21 +130,24 @@ app.post('/api/users/register',(req,res,next)=>{
   //req.body 안에는 json형식으로 아이디, password 이런식으로 들어온다.
   // json형식으로 되어있기 때문에 postman을 사용할때도 json으로 보낸다
   //json 형식으로 된 데이터가 들어있을수 있게하는건 bodyparser를 이용했기 분석했기 떄문
-  
   //save를 하기전에 패스워드를 암호회해줘야한다.
   //save는 몽고db 메소드이고 save를 하면 User모델에 저장이된다.
   //그 이후에 콜백함수가 온다.
   user.save((err, userInfo) => {
-
-    console.log('save메소드를 통해서 저장이 된 유저정보: ', userInfo)
-
-    if(err) return res.json({ success: false, err })
-    //status(200)은 성공했다는 뜻임
-    return res.status(200).json({
-      success: true
-    })//나중에 client에서 payload에 들어감
+    if(err){
+      console.log('save err, required가 필요하다고 나옴', err)
+      return res.json({ success: false, err })
+    } else{
+      console.log('save메소드를 통해서 저장이 된 유저정보: ', userInfo)
+      return res.status(200).json({
+                        //status(200)은 성공했다는 뜻임
+        success: true //나중에 client에서 payload에 들어감
+      })
+    }
   })
 })
+
+
 
 
 
@@ -154,7 +155,6 @@ app.post('/api/users/register',(req,res,next)=>{
 //비밀번호 변경시 모델 유저에있는 comparePassword
 //를 bcrypt를 할수 없어서? 로그인이 안되지만, 데이터 베이스에 저장된것은 확인햇다.
 app.post('/api/users/login',(req,res)=>{
-
   console.log("0번 클라이언트에서 입력: ",req.body)
   //1. 데이터베이스 안에서 요청한 E-mail 찾기
   //객체 User안에 있는 User모델을 가져온다.
