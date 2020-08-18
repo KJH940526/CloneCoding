@@ -13,20 +13,24 @@ const jwt = require('jsonwebtoken')
 const userSchema = mongoose.Schema({
   name: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
+    required: true
+    
   },
   email: {
     type: String,
     trim: true,
-    unique: true
+    unique: true,
+    required: true
   },
   password: {
     type: String,
-    minLength: 5
+    minLength: 5,
+    required: true
   },
   lastname: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   role: {
     type: Number,
@@ -104,11 +108,12 @@ userSchema.pre('save', function( next ) {
 // });
 
 
+//https://stackoverflow.com/questions/49113910/issue-with-mongoose-findbyidandupdate-and-pre-update-hook
+
 userSchema.pre('updateOne', function (next) {
   let user = this; //arrow function 대신 function을 사용한 이유
   //password 변경시에만 실행 -다른 정보 수정할 때는 비밀번호를 암호화 하지 않음.
   console.log("pre에 들어왔어요")
-  // console.lpg(user._update.password)
   console.log("user.js",user._update.password)
   if (user._update.password) {
     bcrypt.genSalt(saltRounds, function (err, salt) {

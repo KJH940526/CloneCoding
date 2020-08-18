@@ -1,13 +1,21 @@
 const express = require('express')  //express modules를 가져온다
 const app = express() //express 함수를 이용해서 새로운 express app을 만들고
 const port = 5000     //포트번호
+const nodemailer = require('nodemailer');
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
 
+
+
+
+
+
+
 const cors = require('cors')
 app.use(cors())
+
 
 
 const config = require('./config/key')
@@ -17,6 +25,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //application/json 타입으로 온 데이터를 분석해서 가져온다.
 app.use(bodyParser.json());
+
+
+// app.use(express.json({ extended: true }));
+// //express에서 제공되는 모듈 -> app.            ??? 검색해보기
+
 
 //쿠키에 저정하기 위해서는 express에서 제공!!!하는 
 //cookieparser가 필요하다
@@ -67,9 +80,47 @@ app.get('/api/hello',(req,res)=>{
 
 //회원가입을 위한 라우트(경로)를 만듬
 //라우트(경로) 라우팅(경로를 찾아가게 하는 과정)
-app.post('/api/users/register',(req,res)=>{
+app.post('/api/users/register',(req,res,next)=>{
+  // app.post('/api/users/register', async(req,res,next)=>{
 
   console.log('clinet에서 입력: ',req.body)
+  //이메일 인증
+
+  let email = req.body.email;
+  console.log("register에서 받은",email)
+
+  //https://gaemi606.tistory.com/42?category=744526
+  //구글 보안인증
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'bitbitlegit@gmail.com',
+      pass: '!bit9000'
+    }
+  })
+
+  const mailOptions = {
+    from : 'bitbitlegit@gmail.com',
+    to: email, //req.body.email
+    subject : "인증처리하세용~!",
+    text : '여기에다가 인증을 부어야함'
+  }
+  
+  console.log("메일 옵션",mailOptions)
+
+  // await transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    }
+    else {  //인증 토큰 생성하는곳???
+      console.log('Email info: ' + JSON.stringify(info));
+      console.log('Email sent: ' + info.response);
+    }
+  })
+
+
+
 
   //회원 가입 할떄 필요한 정보들을 client에서 가져오면
   //그것들을 데이터베이스에 넣어준다.
@@ -78,7 +129,6 @@ app.post('/api/users/register',(req,res)=>{
   const user = new User(req.body)
   // console.log("req.",user)
   // console.log(User)
-
   //req.body 안에는 json형식으로 아이디, password 이런식으로 들어온다.
   // json형식으로 되어있기 때문에 postman을 사용할때도 json으로 보낸다
   //json 형식으로 된 데이터가 들어있을수 있게하는건 bodyparser를 이용했기 분석했기 떄문
