@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios"
 import { withRouter} from 'react-router-dom'
 
 function NotConfirmation(props) {
 
-  const onLandingPage = () => {
-    props.history.push("/")
-}
-
+useEffect(()=>{
+  axios.get('api/users/auth')
+    .then(response => {
+      console.log("auth라고 말해주세요",response.data)
+      if(response.data.isVerified = true){
+        props.history.push("/")
+      }
+    })
+})
 
 const onClickHandler = () => {
   axios.get('api/users/logout')
@@ -29,7 +34,6 @@ const onClickHandler = () => {
       ,width: '100%', height: '100vh'
     }}> 
         <p>이메일 인증을 받지 않았습니다.</p>
-        <p><button onClick={onLandingPage}>LandingPage</button></p>
         <p><button onClick={onClickHandler}>로그아웃</button></p>
     </div>
   )
