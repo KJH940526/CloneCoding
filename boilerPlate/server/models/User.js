@@ -15,7 +15,6 @@ const userSchema = mongoose.Schema({
     type: String,
     maxlength: 50,
     required: true
-    
   },
   email: {
     type: String,
@@ -44,42 +43,64 @@ const userSchema = mongoose.Schema({
   },
   tokenExp: {     //토근 지속시간
     type: Number
+  },
+  //이메일 인증
+  isVerified:{
+    type: Boolean,
+    default: false,
   }
 })
 
 
-//pre는 몽구스에서 가져온 메소드
-//'save' 유저 모델에 save하기 전에 콜백함수를 실행한다.
-// 그러고 나서 next함수로 save로 보낸다
-userSchema.pre('save', function( next ) {
-    var user = this; //this는 위에 있는 자기자신 userSchema를 뜻함
-    console.log("pre에 들어왔어요")
-    // console.log("user.js",user)
+// //pre는 몽구스에서 가져온 메소드
+// //'save' 유저 모델에 save하기 전에 콜백함수를 실행한다.
+// // 그러고 나서 next함수로 save로 보낸다
+// userSchema.pre('save', function( next ) {
+//     var user = this; //this는 위에 있는 자기자신 userSchema를 뜻함
+//     console.log("pre에 들어왔어요")
+//     // console.log("user.js",user)
 
-    //isModified는 몽구스 메소드
-    //이것을 안해주면 회원가입할때 뿐만아니라 save를 할떄마다 
-    //패스워드를 암호화를 한다. 따라서 
-    //비밀번호를 바꿀떄만 암호화 되도록 한는법
-    if(user.isModified('password')){
-    //비밀번호를 암호화시킨다.
-    //솔트는 임의 문자열..  
-    bcrypt.genSalt(saltRounds, function(err, salt){
-      if(err) return next(err)//에러가 생기면 save로 간다.
-      //첫번쨰 인자로 암호화 이전에 패스워드          hash는 암호화된 비밀번호
-      bcrypt.hash(user.password, salt, function(err, hash){
-        if(err) return next(err)
-        //암호화 이전에 패스워드를 hash된 비밀번호로 바꿔준다
-        user.password = hash   
-        next()
-      })
-    })
-    //비밀번호를 바꾸는게 아니라 따른거를 바꿀떄는 
+//     //isModified는 몽구스 메소드
+//     //이것을 안해주면 회원가입할때 뿐만아니라 save를 할떄마다 
+//     //패스워드를 암호화를 한다. 따라서 
+//     //비밀번호를 바꿀떄만 암호화 되도록 한는법
+//     if(user.isModified('password')){
+//     //비밀번호를 암호화시킨다.
+//     //솔트는 임의 문자열..  
+//     bcrypt.genSalt(saltRounds, function(err, salt){
+//       if(err) return next(err)//에러가 생기면 save로 간다.
+//       //첫번쨰 인자로 암호화 이전에 패스워드          hash는 암호화된 비밀번호
+//       bcrypt.hash(user.password, salt, function(err, hash){
+//         if(err) return next(err)
+//         //암호화 이전에 패스워드를 hash된 비밀번호로 바꿔준다
+//         user.password = hash   
+//         next()
+//       })
+//     })
+//     //비밀번호를 바꾸는게 아니라 따른거를 바꿀떄는 
+//   } else {
+//       next()
+//   }
+// });
+
+userSchema.pre("save", function (next) {
+  var user = this;
+  //this => userSchema
+
+  if (user.isModified("password")) {
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      if (err) return next(err);
+
+      bcrypt.hash(user.password, salt, function (err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+      });
+    });
   } else {
-      next()
+    next();
   }
 });
-
-
 
 
 // userSchema.pre('update', function( next ) {
@@ -156,7 +177,6 @@ userSchema.pre('updateOne', function (next) {
 
                   //만든메소드
 userSchema.methods.comparePassword = function(plainPassword, cb){
-
   //plainPassword는 입력하는 password이고
   console.log('2번 client 입력 : ', plainPassword)
   //2번쨰로 실행됨
@@ -167,7 +187,6 @@ userSchema.methods.comparePassword = function(plainPassword, cb){
   //bcrypt.compare는 bcrypt에서 지원하는 함수
                                                    //err이고 isMatch는 참이면 true이다
   bcrypt.compare(plainPassword, this.password, function(err, isMatch){
-
     console.log('3번',isMatch)
     //this.passwrod는 데이터베이스에 있는 암호화된 패스워드이다.
     //비밀번호가 같지 않으면 콜백함수로 err를 전달하고
@@ -231,7 +250,6 @@ userSchema.statics.findByToken = function(token, cb){
 
     //유저 아이디를 이용해서 유저를 찾은다음에
     //클라이언트엣허 가져온 token과 db에 보관된 토큰이 일치하는지 확인
-
     user.findOne({ "_id" : decoded, "token": token}, function(err, user){
       //에러가 있으면은
       if(err) return cb(err);
@@ -249,8 +267,10 @@ userSchema.statics.findByToken = function(token, cb){
   //Uesr객체 생성      //DB에 들어갈 모델의 이름, 스키마                          
 const User = mongoose.model('User',userSchema)
 
+
 //모델을 다른 파일에서 쓰기 위해서 
 module.exports =  {User} 
 
 // export default 인 것은  {} 없이 가져올수 있습니다
 // 하지만 default 아닌 것들은 {} 해서 가지고 와야 됩니다.
+

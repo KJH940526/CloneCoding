@@ -12,9 +12,11 @@ import RegisterPage from './components/views/RegisterPage/RegisterPage'
 
 //- 추가한거
 import MyPage from './components/views/MyPage/MyPage';
-
+import Confirmation from './components/views/Confirmation/Confirmation'
+import NotConfirmation from './components/views/NotConfirmation/NotConfirmation';
 
 import Auth from './hoc/auth'
+
 
 
 function App() {
@@ -50,6 +52,11 @@ function App() {
         
 
           <Route exact path="/mypage" component={Auth(MyPage,true)} />
+
+          <Route path="/confirmation" component={Auth(Confirmation,true)} />
+
+          <Route exact path="/notconfirmation" component={Auth(NotConfirmation,true)}/>
+
         </Switch>
       </div>
     </Router>
