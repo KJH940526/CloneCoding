@@ -8,11 +8,13 @@ useEffect(()=>{
   axios.get('api/users/auth')
     .then(response => {
       console.log("auth라고 말해주세요",response.data)
-      if(response.data.isVerified = true){
+      if(response.data.isVerified){
         props.history.push("/")
       }
     })
-})
+},[])
+//데이터베이스에서 isVerified가 true => 인증된 회원이면
+//다시랜딩페이지로 넘김
 
 const onClickHandler = () => {
   axios.get('api/users/logout')

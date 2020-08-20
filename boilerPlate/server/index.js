@@ -238,83 +238,83 @@ app.get('/api/users/getConfirmation', auth, (req,res)=>{
 
 
 
-// //비밀번호 변경시 모델 유저에있는 comparePassword
-// //를 bcrypt를 할수 없어서? 로그인이 안되지만, 데이터 베이스에 저장된것은 확인햇다.
-app.post("/api/users/login", (req, res) => {
-  console.log("0번 클라이언트에서 입력: ",req.body)
-  //1. 데이터베이스 안에서 요청한 E-mail 찾기
-  //객체 User안에 있는 User모델을 가져온다.
-  //const User = mongoose.model('User',userSchema)
-  //터미널창을 보면 0번과 1번 사이에 몽고 DB연결중.. 이라는 로그창이 보이는데
-  //이는 User.fineOne을 통해서 몽고db에 접속하기 떄문이다.
+// // //비밀번호 변경시 모델 유저에있는 comparePassword
+// // //를 bcrypt를 할수 없어서? 로그인이 안되지만, 데이터 베이스에 저장된것은 확인햇다.
+// app.post("/api/users/login", (req, res) => {
+//   console.log("0번 클라이언트에서 입력: ",req.body)
+//   //1. 데이터베이스 안에서 요청한 E-mail 찾기
+//   //객체 User안에 있는 User모델을 가져온다.
+//   //const User = mongoose.model('User',userSchema)
+//   //터미널창을 보면 0번과 1번 사이에 몽고 DB연결중.. 이라는 로그창이 보이는데
+//   //이는 User.fineOne을 통해서 몽고db에 접속하기 떄문이다.
   
-  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
-  //email은 데이터베이스에 있는거고
-  //req.body.email은 클라이언트에서 요청받은 이메일
-                                      //user정보가 들어있음                     //로그인을 못하는데 confirmation 페이지에 가도 의미가 없음
-  // User.findOne({ email: req.body.email, isVerified: true}, (err, user)=> { //이거는 Confirmation페이지에서 들어가서 true처리를 한 사람만 들어가게 함
-  User.findOne({ email: req.body.email }, (err, user) => {
-    console.log('1번 clinet 입력: ',req.body) //클라이언트에서 요청하는
-    //1번으로 실행됨
-    console.log('1-1번 DB에 있는 user정보: ',user)
-    if (!user) {
-      return res.json({
-        loginSuccess: false,
-        message: "제공된 이메일에 해당하는 유저가 없습니다.",
-      });
-    } 
-    // else if(!isVerified){      // 이거는 보내고 싶음?? 아직 잘 모르겠다
-    //   res.json(`<script type="text/javascript">alert("Not verified");</script>`)
-    // }
+//   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
+//   //email은 데이터베이스에 있는거고
+//   //req.body.email은 클라이언트에서 요청받은 이메일
+//                                       //user정보가 들어있음                     //로그인을 못하는데 confirmation 페이지에 가도 의미가 없음
+//   // User.findOne({ email: req.body.email, isVerified: true}, (err, user)=> { //이거는 Confirmation페이지에서 들어가서 true처리를 한 사람만 들어가게 함
+//   User.findOne({ email: req.body.email }, (err, user) => {
+//     console.log('1번 clinet 입력: ',req.body) //클라이언트에서 요청하는
+//     //1번으로 실행됨
+//     console.log('1-1번 DB에 있는 user정보: ',user)
+//     if (!user) {
+//       return res.json({
+//         loginSuccess: false,
+//         message: "제공된 이메일에 해당하는 유저가 없습니다.",
+//       });
+//     } 
+//     // else if(!isVerified){      // 이거는 보내고 싶음?? 아직 잘 모르겠다
+//     //   res.json(`<script type="text/javascript">alert("Not verified");</script>`)
+//     // }
 
-  //2. 데이트베이스 안에서 요청한 E-mail이 있다면 비밀번호가 같은지 확인
-  //요청된 이메일이 데이터 베이스 있다면 비밀번호가 맞는 비밀번호인지 확인
-  //user에는 user정보가 들어있음
-  //req.body.password는 클라이언트에서 입력한 비밀번호
-  //comparePasswrod                                              
-                  //클라이언트비밀번호가 맞다면 isMatch를 가져옴
+//   //2. 데이트베이스 안에서 요청한 E-mail이 있다면 비밀번호가 같은지 확인
+//   //요청된 이메일이 데이터 베이스 있다면 비밀번호가 맞는 비밀번호인지 확인
+//   //user에는 user정보가 들어있음
+//   //req.body.password는 클라이언트에서 입력한 비밀번호
+//   //comparePasswrod                                              
+//                   //클라이언트비밀번호가 맞다면 isMatch를 가져옴
 
 
-//--여기부터 주석 비밀번호 수정도 암호화 하기전에 했던 주석
-user.comparePassword(req.body.password, (err, isMatch) => {
-  //매소드를 유저 model에서 만듬
-    console.log('4번 index isMatch: ', isMatch)
-    // console.log(req.body.password)
-    if (!isMatch)
-    return res.json({
-      loginSuccess: false,
-      message: "비밀번호가 틀렷습니다.",
-    });
-//--여기 주석  
-    //3.비밀번호가 같다면 Token 생성
-    //토큰을 생성하기 위해서 jsonwebtoken 모듈을 인스톨한다.
-    //https://www.npmjs.com/package/jsonwebtoken
-                            //user에는 토큰이 생성된 유저정보가 있다.
-    user.generateToken((err, user)=>{
-        //매소드를 유저 model에서 만듬
+// //--여기부터 주석 비밀번호 수정도 암호화 하기전에 했던 주석
+// user.comparePassword(req.body.password, (err, isMatch) => {
+//   //매소드를 유저 model에서 만듬
+//     console.log('4번 index isMatch: ', isMatch)
+//     // console.log(req.body.password)
+//     if (!isMatch)
+//     return res.json({
+//       loginSuccess: false,
+//       message: "비밀번호가 틀렷습니다.",
+//     });
+// //--여기 주석  
+//     //3.비밀번호가 같다면 Token 생성
+//     //토큰을 생성하기 위해서 jsonwebtoken 모듈을 인스톨한다.
+//     //https://www.npmjs.com/package/jsonwebtoken
+//                             //user에는 토큰이 생성된 유저정보가 있다.
+//     user.generateToken((err, user)=>{
+//         //매소드를 유저 model에서 만듬
 
-      console.log('9번 user정보: ',user)
+//       console.log('9번 user정보: ',user)
       
-        if(err) return res.status(400).send(err);
+//         if(err) return res.status(400).send(err);
 
-        //토큰을 저장한다. 어디에? 쿠키, 로컬스토리지에 저장하지만
-        //여기서는 쿠키에다가 저장한다.
-        //쿠키에 저정하기 위해서는 express에서 제공하는 cookieparser가 필요하다
-        //현재 user에는 model에 user에서 만들어진 토큰이 들어있다
-        //
-        res
-          .cookie("x_auth",user.token)
-          .status(200)                       //user.id는 몽고디비 고유아이디
-          .json({loginSuccess: true, userId: user._id})
-        // Cookies that have not been signed
-        // console.log('Cookies: ', req.cookies)
-        // console.log('x_auth: ',user.token)
-        // // Cookies that have been signed
-        // console.log('Signed Cookies: ', req.signedCookies)        
-      });
-    }); //-여기주석
-  });
-});
+//         //토큰을 저장한다. 어디에? 쿠키, 로컬스토리지에 저장하지만
+//         //여기서는 쿠키에다가 저장한다.
+//         //쿠키에 저정하기 위해서는 express에서 제공하는 cookieparser가 필요하다
+//         //현재 user에는 model에 user에서 만들어진 토큰이 들어있다
+//         //
+//         res
+//           .cookie("x_auth",user.token)
+//           .status(200)                       //user.id는 몽고디비 고유아이디
+//           .json({loginSuccess: true, userId: user._id})
+//         // Cookies that have not been signed
+//         // console.log('Cookies: ', req.cookies)
+//         // console.log('x_auth: ',user.token)
+//         // // Cookies that have been signed
+//         // console.log('Signed Cookies: ', req.signedCookies)        
+//       });
+//     }); //-여기주석
+//   });
+// });
 
 app.post("/api/users/login", (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -338,6 +338,7 @@ app.post("/api/users/login", (req, res) => {
           // .cookie('x_auth: ',user.token) 이거떄문에 에러생김
           .status(200)                       //user.id는 몽고디비 고유아이디
           .json({loginSuccess: true, userId: user._id})
+
       });
     });
   });
